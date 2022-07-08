@@ -4,6 +4,8 @@
 - [《跟煎鱼学 Go》](https://eddycjy.com/go-categories/)
 - [Gin搭建Blog API's](https://eddycjy.com/posts/go/gin/2018-02-11-api-01/) 
 
+在gin-memos项目中使用的是MySQL8，看上面的参考博客，貌似使用的是MySQL5？这里就选用MySQL5.7，顺便测试一下gorm在MySQL5.7上的实践。
+
 ## Getting start
 
 在conf目录下创建`config.ini`文件：

@@ -10,7 +10,7 @@ import (
 var (
 	RunMode string
 
-	HttpPort     int
+	HttpPort     string
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 
@@ -19,6 +19,7 @@ var (
 	MysqlUser     string
 	MysqlPassword string
 	MysqlHost     string
+	MysqlPort     string
 	MysqlName     string
 )
 
@@ -43,7 +44,7 @@ func LoadServer(file *ini.File) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	HttpPort = section.Key("HTTP_PORT").MustInt(8080)
+	HttpPort = section.Key("HTTP_PORT").MustString("8080")
 	ReadTimeout = time.Duration(section.Key("HTTP_PORT").MustInt(60)) * time.Second
 	WriteTimeout = time.Duration(section.Key("HTTP_PORT").MustInt(60)) * time.Second
 }
@@ -64,5 +65,6 @@ func LoadMysql(file *ini.File) {
 	MysqlUser = section.Key("USER").String()
 	MysqlPassword = section.Key("PASSWORD").String()
 	MysqlHost = section.Key("HOST").String()
+	MysqlPort = section.Key("PORT").String()
 	MysqlName = section.Key("NAME").String()
 }
