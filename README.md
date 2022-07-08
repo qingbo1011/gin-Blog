@@ -6,9 +6,31 @@
 
 ## Getting start
 
+在conf目录下创建`config.ini`文件：
 
+```ini
+#debug or release
+[running]
+RUN_MODE = debug
 
+[app]
+PAGE_SIZE = 10
+JWT_SECRET = 23347$040412
 
+[server]
+HTTP_PORT = 8000
+READ_TIMEOUT = 60
+WRITE_TIMEOUT = 60
+
+[database]
+TYPE = mysql
+USER = root
+PASSWORD = 123456
+#127.0.0.1:3306
+HOST = 127.0.0.1:3308
+NAME = blog
+TABLE_PREFIX = blog_
+```
 
 ## 项目结构
 
