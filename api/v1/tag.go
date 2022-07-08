@@ -2,8 +2,8 @@ package v1
 
 import (
 	"gin-Blog/conf"
-	"gin-Blog/model"
 	"gin-Blog/pkg/error_data"
+	"gin-Blog/service"
 	"gin-Blog/util"
 	"net/http"
 
@@ -30,8 +30,8 @@ func GetTags(c *gin.Context) {
 
 	code := error_data.SUCCESS
 
-	data["lists"] = model.GetTags(util.GetPage(c), conf.PageSize, maps)
-	data["total"] = model.GetTagTotal(maps)
+	data["lists"] = service.GetTags(util.GetPage(c), conf.PageSize, maps)
+	data["total"] = service.GetTagTotal(maps)
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,

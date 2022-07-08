@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"gin-Blog/conf"
+	"gin-Blog/model"
 	"log"
 	"strings"
 	"time"
@@ -31,4 +32,6 @@ func MysqlDBInit() {
 	db.DB().SetMaxOpenConns(100)                 // 设置数据库连接最大打开数。
 	db.DB().SetConnMaxLifetime(time.Second * 30) // 设置可重用连接的最长时间
 	MysqlDB = db
+
+	db.AutoMigrate(&model.Tag{})
 }
