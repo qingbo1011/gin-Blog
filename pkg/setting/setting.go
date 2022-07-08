@@ -14,7 +14,6 @@ var (
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 
-	PageSize  int
 	JwtSecret string
 )
 
@@ -50,5 +49,4 @@ func LoadApp(file *ini.File) {
 		log.Fatalln(err)
 	}
 	JwtSecret = section.Key("JWT_SECRET").MustString("!@)*#)!@U#@*!@!)")
-	PageSize = section.Key("PAGE_SIZE").MustInt(10)
 }
