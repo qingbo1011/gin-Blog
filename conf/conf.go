@@ -1,4 +1,4 @@
-package setting
+package conf
 
 import (
 	"log"
@@ -15,9 +15,14 @@ var (
 	WriteTimeout time.Duration
 
 	JwtSecret string
+
+	MysqlUser     string
+	MysqlPassword string
+	MysqlHost     string
+	MysqlName     string
 )
 
-func init() {
+func Init() {
 	file, err := ini.Load("./conf/config.ini")
 	if err != nil {
 		log.Fatalln("Fail to parse 'conf/app.ini': ", err)
@@ -26,7 +31,7 @@ func init() {
 	LoadBase(file)
 	LoadServer(file)
 	LoadApp(file)
-
+	LoadMysql(file)
 }
 
 func LoadBase(file *ini.File) {
@@ -49,4 +54,15 @@ func LoadApp(file *ini.File) {
 		log.Fatalln(err)
 	}
 	JwtSecret = section.Key("JWT_SECRET").MustString("!@)*#)!@U#@*!@!)")
+}
+
+func LoadMysql(file *ini.File) {
+	section, err := file.GetSection("mysql")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	MysqlUser = section.Key("USER").String()
+	MysqlPassword = section.Key("PASSWORD").String()
+	MysqlHost = section.Key("HOST").String()
+	MysqlName = section.Key("NAME").String()
 }
