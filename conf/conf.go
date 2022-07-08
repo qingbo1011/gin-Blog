@@ -15,6 +15,7 @@ var (
 	WriteTimeout time.Duration
 
 	JwtSecret string
+	PageSize  int
 
 	MysqlUser     string
 	MysqlPassword string
@@ -55,6 +56,7 @@ func LoadApp(file *ini.File) {
 		log.Fatalln(err)
 	}
 	JwtSecret = section.Key("JWT_SECRET").MustString("!@)*#)!@U#@*!@!)")
+	PageSize = section.Key("PAGE_SIZE").MustInt(10)
 }
 
 func LoadMysql(file *ini.File) {

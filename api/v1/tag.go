@@ -1,10 +1,43 @@
 package v1
 
-import "github.com/gin-gonic/gin"
+import (
+	"gin-Blog/conf"
+	"gin-Blog/model"
+	"gin-Blog/pkg/error_data"
+	"gin-Blog/util"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/unknwon/com"
+)
 
 // GetTags 获取多个文章标签
 func GetTags(c *gin.Context) {
+	name := c.Query("name")
 
+	maps := make(map[string]any)
+	data := make(map[string]any)
+
+	if name != "" {
+		maps["name"] = name
+	}
+
+	state := -1
+	if arg := c.Query("state"); arg != "" {
+		state = com.StrTo(arg).MustInt()
+		maps["state"] = state
+	}
+
+	code := error_data.SUCCESS
+
+	data["lists"] = model.GetTags(util.GetPage(c), conf.PageSize, maps)
+	data["total"] = model.GetTagTotal(maps)
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  error_data.GetMsg(code),
+		"data": data,
+	})
 }
 
 // AddTag 新增文章标签
