@@ -10,6 +10,12 @@
 
 > 这项目我跟着写的时候是有点麻的。毕竟是4年前的项目了，很多处理思路跟我实习和之前处理gin-memos的时候完全不一样。但是还是完全照着敲下来学习学习吧。
 
+## 实现功能
+
+- Gin的基本路由route和API（GET、POST、PUT、DELETE）
+- Gin整合Gorm实现对MySQL的增删改查
+- 
+
 ## Getting start
 
 在conf目录下创建`config.ini`文件：
@@ -56,8 +62,6 @@ gin-Blog
 - pkg：第三方包
 - route：路由逻辑处理
 - runtime：应用运行时数据
-
-
 
 ## 心得
 
