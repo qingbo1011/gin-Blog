@@ -33,5 +33,5 @@ func MysqlDBInit() {
 	db.DB().SetConnMaxLifetime(time.Second * 30) // 设置可重用连接的最长时间
 	MysqlDB = db
 
-	db.AutoMigrate(&model.Tag{})
+	db.AutoMigrate(&model.Tag{}, &model.Article{})
 }
