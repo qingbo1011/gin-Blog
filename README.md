@@ -16,26 +16,23 @@
 
 ```ini
 #debug or release
-[running]
 RUN_MODE = debug
 
 [app]
-PAGE_SIZE = 10
 JWT_SECRET = 23347$040412
+PAGE_SIZE  = 5
 
 [server]
-HTTP_PORT = 8000
+HTTP_PORT = :8000
 READ_TIMEOUT = 60
 WRITE_TIMEOUT = 60
 
-[database]
-TYPE = mysql
+[mysql]
 USER = root
 PASSWORD = 123456
-#127.0.0.1:3306
-HOST = 127.0.0.1:3308
+HOST = 127.0.0.1
+PORT = 3306
 NAME = blog
-TABLE_PREFIX = blog_
 ```
 
 ## 项目结构
@@ -59,6 +56,61 @@ gin-Blog
 - pkg：第三方包
 - route：路由逻辑处理
 - runtime：应用运行时数据
+
+
+
+## 心得
+
+在写代码的过程中，我发现gin的源码其实是很好看很容易看懂的。比如在用到`c.Query`、`c.DefaultQuery`和`c.Param`时，可能还不明确具体是什么意思，如何使用。这个时候点进去看一下源码就可以了：
+
+```go
+// Query returns the keyed url query value if it exists,
+// otherwise it returns an empty string `("")`.
+// It is shortcut for `c.Request.URL.Query().Get(key)`
+//     GET /path?id=1234&name=Manu&value=
+//        c.Query("id") == "1234"
+//        c.Query("name") == "Manu"
+//        c.Query("value") == ""
+//        c.Query("wtf") == ""
+func (c *Context) Query(key string) (value string) {
+   value, _ = c.GetQuery(key)
+   return
+}
+
+/************************************/
+
+// DefaultQuery returns the keyed url query value if it exists,
+// otherwise it returns the specified defaultValue string.
+// See: Query() and GetQuery() for further information.
+//     GET /?name=Manu&lastname=
+//     c.DefaultQuery("name", "unknown") == "Manu"
+//     c.DefaultQuery("id", "none") == "none"
+//     c.DefaultQuery("lastname", "none") == ""
+func (c *Context) DefaultQuery(key, defaultValue string) string {
+	if value, ok := c.GetQuery(key); ok {
+		return value
+	}
+	return defaultValue
+}
+
+/************************************/
+
+// Param returns the value of the URL param.
+// It is a shortcut for c.Params.ByName(key)
+//     router.GET("/user/:id", func(c *gin.Context) {
+//         // a GET request to /user/john
+//         id := c.Param("id") // id == "john"
+//     })
+func (c *Context) Param(key string) string {
+	return c.Params.ByName(key)
+}
+```
+
+
+
+
+
+
 
 
 
