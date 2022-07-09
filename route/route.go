@@ -14,7 +14,7 @@ func NewRoute() *gin.Engine {
 		apiV1.GET("/tags", v1.GetTags)
 		apiV1.POST("/tags", v1.AddTag)
 		apiV1.PUT("/tags/:id", v1.EditTag) // gin绑定URI
-		apiV1.GET("/tags/:id", v1.DeleteTag)
+		apiV1.DELETE("/tags/:id", v1.DeleteTag)
 	}
 
 	return r
