@@ -112,4 +112,23 @@ func EditTag(c *gin.Context) {
 
 // DeleteTag 删除文章标签
 func DeleteTag(c *gin.Context) {
+	id := com.StrTo(c.Param("id")).MustInt()
+
+	valid := validation.Validation{}
+	valid.Min(id, 1, "1").Message("ID必须大于0")
+
+	code := error_data.INVALID_PARAMS
+	if !valid.HasErrors() {
+		code = error_data.SUCCESS
+		if service.ExistTagByID(id) {
+			service.DeleteTag(id)
+		} else {
+			code = error_data.ERROR_NOT_EXIST_TAG
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  error_data.GetMsg(code),
+	})
 }

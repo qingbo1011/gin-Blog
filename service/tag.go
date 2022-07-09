@@ -52,3 +52,9 @@ func EditTag(id int, data any) {
 	// Update(data) 使用map更新多个属性，只会更新那些被更改了的字段
 	mysql.MysqlDB.Model(&model.Tag{}).Where("id = ?", id).Update(data)
 }
+
+// DeleteTag 根据ID删除Tag
+func DeleteTag(id int) {
+	// 批量删除用法
+	mysql.MysqlDB.Where("id = ?", id).Delete(&model.Tag{})
+}
