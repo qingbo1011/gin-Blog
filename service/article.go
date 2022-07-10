@@ -58,5 +58,9 @@ func AddArticle(data map[string]any) {
 // EditArticle 修改article
 func EditArticle(id int, data any) {
 	mysql.MysqlDB.Model(&model.Article{}).Where("id = ?", id).Update(data)
+}
 
+// DeleteArticle 根据id删除article
+func DeleteArticle(id int) {
+	mysql.MysqlDB.Where("id = ?", id).Delete(&model.Article{})
 }
