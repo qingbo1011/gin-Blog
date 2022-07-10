@@ -54,3 +54,9 @@ func AddArticle(data map[string]any) {
 		State:     data["state"].(int),
 	})
 }
+
+// EditArticle 修改article
+func EditArticle(id int, data any) {
+	mysql.MysqlDB.Model(&model.Article{}).Where("id = ?", id).Update(data)
+
+}
