@@ -41,3 +41,16 @@ func GetArticles(pageNum int, pageSize int, maps any) (articles []model.Article)
 	mysql.MysqlDB.Preloads("Tag").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles)
 	return
 }
+
+// AddArticle 新增article
+func AddArticle(data map[string]any) {
+	mysql.MysqlDB.Create(&model.Article{
+		// 通过断言将any类型转为我们需要的类型
+		TagID:     data["tag_id"].(int),
+		Title:     data["title"].(string),
+		Desc:      data["desc"].(string),
+		Content:   data["content"].(string),
+		CreatedBy: data["created_by"].(string),
+		State:     data["state"].(int),
+	})
+}

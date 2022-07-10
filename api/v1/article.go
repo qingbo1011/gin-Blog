@@ -83,6 +83,46 @@ func GetArticles(c *gin.Context) {
 
 // AddArticle 新增文章
 func AddArticle(c *gin.Context) {
+	tagID := com.StrTo(c.Query("tag_id")).MustInt()            // 文章标签
+	title := c.Query("title")                                  // 文章标题
+	desc := c.Query("desc")                                    // 文章简述
+	content := c.Query("content")                              // 文章内容
+	createdBy := c.Query("created_by")                         // 文章创建人
+	state := com.StrTo(c.DefaultQuery("state", "0")).MustInt() // 文章状态
+
+	valid := validation.Validation{}
+	valid.Min(tagID, 1, "tag_id").Message("标签ID必须大于0")
+	valid.Required(title, "title").Message("标题不能为空")
+	valid.Required(desc, "desc").Message("简述不能为空")
+	valid.Required(content, "content").Message("内容不能为空")
+	valid.Required(createdBy, "created_by").Message("创建人不能为空")
+	valid.Range(state, 0, 1, "state").Message("状态只允许0或1")
+
+	code := error_data.INVALID_PARAMS
+	if !valid.HasErrors() {
+		if service.ExistTagByID(tagID) {
+			data := make(map[string]any)
+			data["tag_id"] = tagID
+			data["title"] = title
+			data["desc"] = desc
+			data["content"] = content
+			data["created_by"] = createdBy
+			data["state"] = state
+			service.AddArticle(data)
+		} else {
+			code = error_data.ERROR_NOT_EXIST_TAG
+		}
+	} else {
+		for _, err := range valid.Errors {
+			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  error_data.GetMsg(code),
+	})
+
 }
 
 // EditArticle 修改文章

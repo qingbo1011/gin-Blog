@@ -66,7 +66,7 @@ gin-Blog
 
 ## 心得
 
-在写代码的过程中，我发现gin的源码其实是很好看很容易看懂的。比如在用到`c.Query`、`c.DefaultQuery`和`c.Param`时，可能还不明确具体是什么意思，如何使用。这个时候点进去看一下源码就可以了：
+1.在写代码的过程中，我发现gin的源码其实是很好看很容易看懂的。比如在用到`c.Query`、`c.DefaultQuery`和`c.Param`时，可能还不明确具体是什么意思，如何使用。这个时候点进去看一下源码就可以了：
 
 ```go
 // Query returns the keyed url query value if it exists,
@@ -111,15 +111,9 @@ func (c *Context) Param(key string) string {
 }
 ```
 
+2.这个系列的教程很多地方都是用`map[string]any`类型，我觉得使用`struct`来替换`map`的使用，会方便很多。
 
-
-
-
-
-
-
-
-
+3为了方便展示原博客作者选用了 `GET/Param` 传参的方式，而在gin-memos项目中使用的大多则是在`Request Body`中传入`json`的。
 
 
 
