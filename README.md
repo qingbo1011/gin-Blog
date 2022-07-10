@@ -113,7 +113,7 @@ func (c *Context) Param(key string) string {
 
 2.这个系列的教程很多地方都是用`map[string]any`类型，我觉得使用`struct`来替换`map`的使用，会方便很多。
 
-3为了方便展示原博客作者选用了 `GET/Param` 传参的方式，而在gin-memos项目中使用的大多则是在`Request Body`中传入`json`的。
+3为了方便展示原博客作者选用了 `GET/Param` 传参的方式，而在gin-memos项目中使用的大多则是在`Request Body`中传入`json`的。（`GET/Param` 传参的方式肯定是不行的，因为url长度是有限的，文章存储的内容就有限了。）
 
 
 

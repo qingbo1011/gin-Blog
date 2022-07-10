@@ -101,6 +101,7 @@ func AddArticle(c *gin.Context) {
 	code := error_data.INVALID_PARAMS
 	if !valid.HasErrors() {
 		if service.ExistTagByID(tagID) {
+			code = error_data.SUCCESS
 			data := make(map[string]any)
 			data["tag_id"] = tagID
 			data["title"] = title
