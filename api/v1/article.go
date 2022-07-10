@@ -1,9 +1,11 @@
 package v1
 
 import (
+	"gin-Blog/conf"
 	"gin-Blog/model"
 	"gin-Blog/pkg/error_data"
 	"gin-Blog/service"
+	"gin-Blog/util"
 	"log"
 	"net/http"
 
@@ -43,6 +45,39 @@ func GetArticle(c *gin.Context) {
 
 // GetArticles 获取多个文章
 func GetArticles(c *gin.Context) {
+	data := make(map[string]any)
+	maps := make(map[string]any)
+
+	valid := validation.Validation{}
+	state := -1
+	if arg := c.Query("state"); arg != "" {
+		state = com.StrTo(arg).MustInt()
+		maps["state"] = state
+		valid.Range(state, 0, 1, "state").Message("状态只允许0或1")
+	}
+	tagID := -1
+	if arg := c.Query("tag_id"); arg != "" {
+		tagID = com.StrTo(arg).MustInt()
+		maps["tag_id"] = tagID
+		valid.Min(tagID, 1, "tag_id").Message("标签ID必须大于0")
+	}
+
+	code := error_data.INVALID_PARAMS
+	if !valid.HasErrors() {
+		code = error_data.SUCCESS
+		data["lists"] = service.GetArticles(util.GetPage(c), conf.PageSize, maps)
+		data["total"] = service.GetArticleTotal(maps)
+	} else {
+		for _, err := range valid.Errors {
+			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  error_data.GetMsg(code),
+		"data": data,
+	})
 
 }
 
