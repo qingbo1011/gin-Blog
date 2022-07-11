@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"gin-Blog/db/mysql"
 	"gin-Blog/model"
 )
@@ -63,4 +64,15 @@ func EditArticle(id int, data any) {
 // DeleteArticle 根据id删除article
 func DeleteArticle(id int) {
 	mysql.MysqlDB.Where("id = ?", id).Delete(&model.Article{})
+}
+
+// CleanAllArticle 硬删除article表中所有已经被(软)删除的数据
+func CleanAllArticle() error {
+	err := mysql.MysqlDB.Unscoped().Where("deleted_at != ?", "null").Delete(&model.Article{}).Error
+	return err
+}
+
+// CronArticle 测试Corn定时任务用
+func CronArticle() {
+	fmt.Println("关于Article的定时任务")
 }

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"gin-Blog/db/mysql"
 	"gin-Blog/model"
 )
@@ -57,4 +58,16 @@ func EditTag(id int, data any) {
 func DeleteTag(id int) {
 	// 批量删除用法
 	mysql.MysqlDB.Where("id = ?", id).Delete(&model.Tag{})
+}
+
+// CleanAllTag 硬删除tag表中所有已经被(软)删除的数据
+func CleanAllTag() error {
+	// 使用Unscoped()进行硬删除
+	err := mysql.MysqlDB.Unscoped().Where("deleted_on != ? ", 0).Delete(&model.Tag{}).Error
+	return err
+}
+
+// CronTag 测试定时任务用
+func CronTag() {
+	fmt.Println("关于Tag的定时任务")
 }
