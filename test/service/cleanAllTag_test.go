@@ -9,7 +9,7 @@ import (
 )
 
 func TestCleanAllTag(t *testing.T) {
-	conf.Init("D:\\go_study\\code\\pro\\gin-Blog\\conf\\config.ini")
+	conf.Init("../../conf/config.ini")
 	mysql.MysqlDBInit()
 	err := service.CleanAllTag()
 	if err != nil {
