@@ -63,7 +63,7 @@ func DeleteTag(id int) {
 // CleanAllTag 硬删除tag表中所有已经被(软)删除的数据
 func CleanAllTag() error {
 	// 使用Unscoped()进行硬删除
-	err := mysql.MysqlDB.Unscoped().Where("deleted_on != ? ", 0).Delete(&model.Tag{}).Error
+	err := mysql.MysqlDB.Unscoped().Where("deleted_at != ? ", 0).Delete(&model.Tag{}).Error
 	return err
 }
 

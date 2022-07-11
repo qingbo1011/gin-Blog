@@ -24,8 +24,8 @@ var (
 	MysqlName     string
 )
 
-func Init() {
-	file, err := ini.Load("./conf/config.ini")
+func Init(path string) {
+	file, err := ini.Load(path)
 	if err != nil {
 		log.Fatalln("Fail to parse 'conf/app.ini': ", err)
 	}

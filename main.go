@@ -16,6 +16,6 @@ func main() {
 }
 
 func init() {
-	conf.Init()
+	conf.Init("./conf/config.ini")
 	mysql.MysqlDBInit()
 }
